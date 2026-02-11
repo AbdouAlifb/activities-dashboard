@@ -48,7 +48,7 @@ const ActivitiesPage = () => {
       setCities(citiesRes.data.data.cities);
       setCategories(catsRes.data.data.categories);
     } catch (error) {
-      toast.error('Failed to fetch filters');
+      toast.error('Échec de récupération des filtres');
     }
   };
 
@@ -62,7 +62,7 @@ const ActivitiesPage = () => {
       setActivities(response.data.data.activities);
       setPagination(prev => ({ ...prev, ...response.data.data.pagination }));
     } catch (error) {
-      toast.error('Failed to fetch activities');
+      toast.error('Échec de récupération des activités');
     } finally {
       setLoading(false);
     }
@@ -106,9 +106,9 @@ const ActivitiesPage = () => {
       setUploading(true);
       const response = await uploadAPI.uploadSingle('activities', file);
       setFormData(prev => ({ ...prev, mainImageUrl: response.data.data.url }));
-      toast.success('Image uploaded');
+      toast.success('Image téléchargée');
     } catch (error) {
-      toast.error('Failed to upload');
+      toast.error('Échec du téléchargement');
     } finally {
       setUploading(false);
     }
@@ -142,16 +142,16 @@ const ActivitiesPage = () => {
 
       if (selectedActivity) {
         await activitiesAPI.update(selectedActivity.id, data);
-        toast.success('Activity updated');
+        toast.success('Activité mise à jour');
       } else {
         await activitiesAPI.create(data);
-        toast.success('Activity created');
+        toast.success('Activité créée');
       }
       handleCloseModal();
       fetchActivities();
     } catch (error) {
       console.error('❌ Activity submission error:', error.response?.data);
-      const errorMsg = error.response?.data?.message || 'Failed to save';
+      const errorMsg = error.response?.data?.message || 'Échec de sauvegarde';
       const errors = error.response?.data?.errors;
 
       if (errors && errors.length > 0) {
@@ -168,31 +168,31 @@ const ActivitiesPage = () => {
   const handleDelete = async () => {
     try {
       await activitiesAPI.delete(selectedActivity.id);
-      toast.success('Activity deleted');
+      toast.success('Activité supprimée');
       setIsDeleteOpen(false);
       fetchActivities();
     } catch (error) {
-      toast.error(error.response?.data?.message || 'Failed to delete');
+      toast.error(error.response?.data?.message || 'Échec de suppression');
     }
   };
 
   const handleToggleFeatured = async (activity) => {
     try {
       await activitiesAPI.toggleFeatured(activity.id);
-      toast.success(`Activity ${activity.is_featured ? 'removed from' : 'marked as'} featured`);
+      toast.success(`Activité ${activity.is_featured ? 'retirée des' : 'marquée comme'} vedettes`);
       fetchActivities();
     } catch (error) {
-      toast.error('Failed to update');
+      toast.error('Échec de mise à jour');
     }
   };
 
   const handleToggleActive = async (activity) => {
     try {
       await activitiesAPI.update(activity.id, { isActive: !activity.is_active });
-      toast.success(`Activity ${activity.is_active ? 'deactivated' : 'activated'}`);
+      toast.success(`Activité ${activity.is_active ? 'désactivée' : 'activée'}`);
       fetchActivities();
     } catch (error) {
-      toast.error('Failed to update');
+      toast.error('Échec de mise à jour');
     }
   };
 
@@ -248,23 +248,23 @@ const ActivitiesPage = () => {
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-display font-semibold text-slate-900">Activities</h1>
-          <p className="text-slate-500 mt-1">Manage activities available for booking</p>
+          <h1 className="text-2xl font-display font-semibold text-slate-900">Activités</h1>
+          <p className="text-slate-500 mt-1">Gérer les activités disponibles pour la réservation</p>
         </div>
-        <Button onClick={() => handleOpenModal()} icon={Plus}>Add Activity</Button>
+        <Button onClick={() => handleOpenModal()} icon={Plus}>Ajouter Activité</Button>
       </div>
 
       <div className="flex flex-col sm:flex-row gap-4">
         <div className="relative flex-1 max-w-md">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
-          <input type="text" placeholder="Search activities..." value={search} onChange={(e) => { setSearch(e.target.value); setPagination(p => ({ ...p, page: 1 })); }} className="w-full pl-10 pr-4 py-2 border border-slate-200 rounded-lg" />
+          <input type="text" placeholder="Rechercher des activités..." value={search} onChange={(e) => { setSearch(e.target.value); setPagination(p => ({ ...p, page: 1 })); }} className="w-full pl-10 pr-4 py-2 border border-slate-200 rounded-lg" />
         </div>
         <select value={filterCity} onChange={(e) => { setFilterCity(e.target.value); setPagination(p => ({ ...p, page: 1 })); }} className="px-4 py-2 border border-slate-200 rounded-lg">
-          <option value="">All Cities</option>
+          <option value="">Toutes les Villes</option>
           {cities.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
         </select>
         <select value={filterCategory} onChange={(e) => { setFilterCategory(e.target.value); setPagination(p => ({ ...p, page: 1 })); }} className="px-4 py-2 border border-slate-200 rounded-lg">
-          <option value="">All Categories</option>
+          <option value="">Toutes les Catégories</option>
           {categories.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
         </select>
       </div>
@@ -272,7 +272,7 @@ const ActivitiesPage = () => {
       <Table columns={columns} data={activities} loading={loading} pagination={pagination} onPageChange={(page) => setPagination(prev => ({ ...prev, page }))} />
 
       {/* Create/Edit Modal */}
-      <Modal isOpen={isModalOpen} onClose={handleCloseModal} title={selectedActivity ? 'Edit Activity' : 'Add Activity'} size="lg">
+      <Modal isOpen={isModalOpen} onClose={handleCloseModal} title={selectedActivity ? 'Modifier l\'Activité' : 'Ajouter une Activité'} size="lg">
         <form onSubmit={handleSubmit} className="space-y-4 max-h-[70vh] overflow-y-auto pr-2">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <Input label="Title *" value={formData.title} onChange={(e) => setFormData(p => ({ ...p, title: e.target.value }))} required />

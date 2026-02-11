@@ -235,7 +235,7 @@ const Sidebar = ({ isOpen, onClose, hasNewReservations, newReservationsCount }) 
             className={`w-full flex items-center ${isCollapsed ? 'justify-center' : 'gap-3'} px-3 py-2.5 rounded-lg text-red-600 hover:bg-red-50 transition-colors`}
           >
             <LogOut className="w-5 h-5" />
-            {!isCollapsed && <span className="font-medium text-sm">Logout</span>}
+            {!isCollapsed && <span className="font-medium text-sm">Déconnexion</span>}
           </button>
         </div>
       </aside>

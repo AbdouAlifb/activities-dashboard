@@ -21,6 +21,8 @@ import ActivitiesPage from './pages/ActivitiesPage';
 import AgenciesPage from './pages/AgenciesPage';
 import ReservationsPage from './pages/ReservationsPage';
 import AgencyPayoutsPage from './pages/AgencyPayoutsPage';
+import PromoCodesPage from './pages/PromoCodes';
+import ReviewsPage from './pages/ReviewsPage';
 
 // Agency Pages
 import AgencyDashboardPage from './pages/AgencyDashboardPage';
@@ -75,7 +77,9 @@ function App() {
             <Route path="platform/activities" element={<ProtectedRoute requireSuperAdmin><ActivitiesPage /></ProtectedRoute>} />
             <Route path="platform/agencies" element={<ProtectedRoute requireSuperAdmin><AgenciesPage /></ProtectedRoute>} />
             <Route path="platform/reservations" element={<ProtectedRoute requireSuperAdmin><ReservationsPage /></ProtectedRoute>} />
-            
+            <Route path="platform/promo-codes" element={<ProtectedRoute requireSuperAdmin><PromoCodesPage /></ProtectedRoute>} />
+            <Route path="platform/reviews" element={<ProtectedRoute requireSuperAdmin><ReviewsPage /></ProtectedRoute>} />
+
             {/* Agency Admin routes */}
             <Route path="agency/dashboard" element={<AgencyDashboardPage />} />
             <Route path="agency/activities" element={<AgencyDashboardPage />} />

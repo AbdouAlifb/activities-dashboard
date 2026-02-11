@@ -75,7 +75,7 @@ const ReservationsPage = () => {
       setReservations(response.data.data.reservations);
       setPagination(prev => ({ ...prev, ...response.data.data.pagination }));
     } catch (error) {
-      toast.error('Failed to fetch reservations');
+      toast.error('Échec de récupération des réservations');
     } finally {
       setLoading(false);
     }
@@ -84,36 +84,36 @@ const ReservationsPage = () => {
   const handleConfirm = async () => {
     try {
       await reservationsAPI.confirm(selectedReservation.id);
-      toast.success('Reservation confirmed');
+      toast.success('Réservation confirmée');
       setIsConfirmOpen(false);
       fetchReservations();
       fetchStats();
     } catch (error) {
-      toast.error(error.response?.data?.message || 'Failed to confirm');
+      toast.error(error.response?.data?.message || 'Échec de confirmation');
     }
   };
 
   const handleCancel = async () => {
     try {
       await reservationsAPI.cancel(selectedReservation.id, cancelReason);
-      toast.success('Reservation cancelled');
+      toast.success('Réservation annulée');
       setIsCancelOpen(false);
       setCancelReason('');
       fetchReservations();
       fetchStats();
     } catch (error) {
-      toast.error(error.response?.data?.message || 'Failed to cancel');
+      toast.error(error.response?.data?.message || "Échec d'annulation");
     }
   };
 
   const handleComplete = async (reservation) => {
     try {
       await reservationsAPI.complete(reservation.id);
-      toast.success('Reservation marked as completed');
+      toast.success('Réservation marquée comme terminée');
       fetchReservations();
       fetchStats();
     } catch (error) {
-      toast.error(error.response?.data?.message || 'Failed to complete');
+      toast.error(error.response?.data?.message || 'Échec de complétion');
     }
   };
 
@@ -122,7 +122,7 @@ const ReservationsPage = () => {
 
   const columns = [
     {
-      key: 'reference', label: 'Reference',
+      key: 'reference', label: 'Référence',
       render: (row) => (
         <div>
           <code className="text-sm font-mono bg-slate-100 px-2 py-0.5 rounded">{row.reference_code}</code>
@@ -131,7 +131,7 @@ const ReservationsPage = () => {
       )
     },
     {
-      key: 'activity', label: 'Activity',
+      key: 'activity', label: 'Activité',
       render: (row) => (
         <div className="flex items-center gap-3">
           {row.activity_image && <img src={row.activity_image} alt="" className="w-12 h-8 rounded object-cover" />}
@@ -143,7 +143,7 @@ const ReservationsPage = () => {
       )
     },
     {
-      key: 'customer', label: 'Customer',
+      key: 'customer', label: 'Client',
       render: (row) => (
         <div>
           <div className="font-medium text-slate-900">{row.customer_name}</div>
@@ -152,17 +152,17 @@ const ReservationsPage = () => {
       )
     },
     {
-      key: 'booking', label: 'Booking',
+      key: 'booking', label: 'Réservation',
       render: (row) => (
         <div className="text-sm">
           <div className="flex items-center gap-1"><Calendar className="w-3 h-3" /> {formatDate(row.booking_date)}</div>
           <div className="flex items-center gap-1 text-slate-500"><Clock className="w-3 h-3" /> {formatTime(row.booking_time)}</div>
-          <div className="flex items-center gap-1 text-slate-500"><Users className="w-3 h-3" /> {row.participants} pax</div>
+          <div className="flex items-center gap-1 text-slate-500"><Users className="w-3 h-3" /> {row.participants} pers.</div>
         </div>
       )
     },
     {
-      key: 'amount', label: 'Amount',
+      key: 'amount', label: 'Montant',
       render: (row) => (
         <div>
           <div className="font-medium text-green-600">${parseFloat(row.total_price).toFixed(2)}</div>
@@ -170,9 +170,9 @@ const ReservationsPage = () => {
         </div>
       )
     },
-    { key: 'agency_name', label: 'Agency' },
+    { key: 'agency_name', label: 'Agence' },
     {
-      key: 'status', label: 'Status',
+      key: 'status', label: 'Statut',
       render: (row) => (
         <div className="space-y-1">
           <Badge variant={statusColors[row.status]}>{row.status}</Badge>
@@ -184,15 +184,15 @@ const ReservationsPage = () => {
       key: 'actions', label: 'Actions',
       render: (row) => (
         <div className="flex items-center gap-1">
-          <button onClick={() => { setSelectedReservation(row); setIsViewOpen(true); }} className="p-1.5 text-slate-500 hover:text-blue-600 hover:bg-blue-50 rounded-lg" title="View"><Eye className="w-4 h-4" /></button>
+          <button onClick={() => { setSelectedReservation(row); setIsViewOpen(true); }} className="p-1.5 text-slate-500 hover:text-blue-600 hover:bg-blue-50 rounded-lg" title="Voir"><Eye className="w-4 h-4" /></button>
           {row.status === 'pending' && (
             <>
-              <button onClick={() => { setSelectedReservation(row); setIsConfirmOpen(true); }} className="p-1.5 text-slate-500 hover:text-green-600 hover:bg-green-50 rounded-lg" title="Confirm"><CheckCircle className="w-4 h-4" /></button>
-              <button onClick={() => { setSelectedReservation(row); setIsCancelOpen(true); }} className="p-1.5 text-slate-500 hover:text-red-600 hover:bg-red-50 rounded-lg" title="Cancel"><XCircle className="w-4 h-4" /></button>
+              <button onClick={() => { setSelectedReservation(row); setIsConfirmOpen(true); }} className="p-1.5 text-slate-500 hover:text-green-600 hover:bg-green-50 rounded-lg" title="Confirmer"><CheckCircle className="w-4 h-4" /></button>
+              <button onClick={() => { setSelectedReservation(row); setIsCancelOpen(true); }} className="p-1.5 text-slate-500 hover:text-red-600 hover:bg-red-50 rounded-lg" title="Annuler"><XCircle className="w-4 h-4" /></button>
             </>
           )}
           {row.status === 'confirmed' && (
-            <button onClick={() => handleComplete(row)} className="px-2 py-1 text-xs bg-green-100 text-green-700 rounded hover:bg-green-200">Complete</button>
+            <button onClick={() => handleComplete(row)} className="px-2 py-1 text-xs bg-green-100 text-green-700 rounded hover:bg-green-200">Terminer</button>
           )}
         </div>
       )
@@ -202,8 +202,8 @@ const ReservationsPage = () => {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-display font-semibold text-slate-900">Reservations</h1>
-        <p className="text-slate-500 mt-1">Manage all platform reservations</p>
+        <h1 className="text-2xl font-display font-semibold text-slate-900">Réservations</h1>
+        <p className="text-slate-500 mt-1">Gérer toutes les réservations de la plateforme</p>
       </div>
 
       {/* Stats */}
@@ -215,19 +215,19 @@ const ReservationsPage = () => {
           </div>
           <div className="bg-amber-50 p-4 rounded-xl border border-amber-200">
             <p className="text-2xl font-bold text-amber-600">{stats.pending}</p>
-            <p className="text-sm text-amber-700">Pending</p>
+            <p className="text-sm text-amber-700">En Attente</p>
           </div>
           <div className="bg-blue-50 p-4 rounded-xl border border-blue-200">
             <p className="text-2xl font-bold text-blue-600">{stats.confirmed}</p>
-            <p className="text-sm text-blue-700">Confirmed</p>
+            <p className="text-sm text-blue-700">Confirmées</p>
           </div>
           <div className="bg-green-50 p-4 rounded-xl border border-green-200">
             <p className="text-2xl font-bold text-green-600">{stats.completed}</p>
-            <p className="text-sm text-green-700">Completed</p>
+            <p className="text-sm text-green-700">Terminées</p>
           </div>
           <div className="bg-green-50 p-4 rounded-xl border border-green-200">
             <p className="text-2xl font-bold text-green-600">${parseFloat(stats.total_revenue || 0).toFixed(0)}</p>
-            <p className="text-sm text-green-700">Revenue</p>
+            <p className="text-sm text-green-700">Revenu</p>
           </div>
         </div>
       )}
@@ -236,25 +236,25 @@ const ReservationsPage = () => {
       <div className="flex flex-col sm:flex-row gap-4">
         <div className="relative flex-1 max-w-md">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
-          <input type="text" placeholder="Search by reference, customer..." value={search} onChange={(e) => { setSearch(e.target.value); setPagination(p => ({ ...p, page: 1 })); }} className="w-full pl-10 pr-4 py-2 border border-slate-200 rounded-lg" />
+          <input type="text" placeholder="Rechercher par référence, client..." value={search} onChange={(e) => { setSearch(e.target.value); setPagination(p => ({ ...p, page: 1 })); }} className="w-full pl-10 pr-4 py-2 border border-slate-200 rounded-lg" />
         </div>
         <select value={filterAgency} onChange={(e) => { setFilterAgency(e.target.value); setPagination(p => ({ ...p, page: 1 })); }} className="px-4 py-2 border border-slate-200 rounded-lg">
-          <option value="">All Agencies</option>
+          <option value="">Toutes les Agences</option>
           {agencies.map(a => <option key={a.id} value={a.id}>{a.name}</option>)}
         </select>
         <select value={filterStatus} onChange={(e) => { setFilterStatus(e.target.value); setPagination(p => ({ ...p, page: 1 })); }} className="px-4 py-2 border border-slate-200 rounded-lg">
-          <option value="">All Status</option>
-          <option value="pending">Pending</option>
-          <option value="confirmed">Confirmed</option>
-          <option value="completed">Completed</option>
-          <option value="cancelled">Cancelled</option>
+          <option value="">Tous les Statuts</option>
+          <option value="pending">En Attente</option>
+          <option value="confirmed">Confirmées</option>
+          <option value="completed">Terminées</option>
+          <option value="cancelled">Annulées</option>
         </select>
       </div>
 
       <Table columns={columns} data={reservations} loading={loading} pagination={pagination} onPageChange={(page) => setPagination(prev => ({ ...prev, page }))} />
 
       {/* View Modal */}
-      <Modal isOpen={isViewOpen} onClose={() => setIsViewOpen(false)} title="Reservation Details" size="lg">
+      <Modal isOpen={isViewOpen} onClose={() => setIsViewOpen(false)} title="Détails de la Réservation" size="lg">
         {selectedReservation && (
           <div className="space-y-4">
             <div className="flex items-center justify-between">
@@ -267,26 +267,26 @@ const ReservationsPage = () => {
 
             <div className="grid grid-cols-2 gap-4 p-4 bg-slate-50 rounded-lg">
               <div>
-                <h4 className="text-sm font-medium text-slate-500">Activity</h4>
+                <h4 className="text-sm font-medium text-slate-500">Activité</h4>
                 <p className="font-medium">{selectedReservation.activity_title}</p>
                 <p className="text-sm text-slate-500">{selectedReservation.city_name}</p>
               </div>
               <div>
-                <h4 className="text-sm font-medium text-slate-500">Agency</h4>
+                <h4 className="text-sm font-medium text-slate-500">Agence</h4>
                 <p className="font-medium">{selectedReservation.agency_name}</p>
               </div>
             </div>
 
             <div className="grid grid-cols-2 gap-4 p-4 bg-blue-50 rounded-lg">
               <div>
-                <h4 className="text-sm font-medium text-blue-800">Customer</h4>
+                <h4 className="text-sm font-medium text-blue-800">Client</h4>
                 <p className="font-medium">{selectedReservation.customer_name}</p>
                 <p className="text-sm">{selectedReservation.customer_email}</p>
                 {selectedReservation.customer_phone && <p className="text-sm">{selectedReservation.customer_phone}</p>}
               </div>
               <div>
-                <h4 className="text-sm font-medium text-blue-800">Booking Details</h4>
-                <p className="font-medium">{formatDate(selectedReservation.booking_date)} at {formatTime(selectedReservation.booking_time)}</p>
+                <h4 className="text-sm font-medium text-blue-800">Détails de Réservation</h4>
+                <p className="font-medium">{formatDate(selectedReservation.booking_date)} à {formatTime(selectedReservation.booking_time)}</p>
                 <p className="text-sm">{selectedReservation.participants} participants</p>
               </div>
             </div>
@@ -294,7 +294,7 @@ const ReservationsPage = () => {
             <div className="grid grid-cols-3 gap-4 p-4 bg-green-50 rounded-lg">
               <div className="text-center">
                 <p className="text-2xl font-bold text-green-600">${parseFloat(selectedReservation.total_price).toFixed(2)}</p>
-                <p className="text-xs text-green-700">Total Price</p>
+                <p className="text-xs text-green-700">Prix Total</p>
               </div>
               <div className="text-center">
                 <p className="text-2xl font-bold text-amber-600">${parseFloat(selectedReservation.commission_amount).toFixed(2)}</p>
@@ -302,48 +302,48 @@ const ReservationsPage = () => {
               </div>
               <div className="text-center">
                 <p className="text-2xl font-bold text-blue-600">${parseFloat(selectedReservation.agency_payout).toFixed(2)}</p>
-                <p className="text-xs text-blue-700">Agency Payout</p>
+                <p className="text-xs text-blue-700">Paiement Agence</p>
               </div>
             </div>
 
             {selectedReservation.customer_notes && (
-              <div><h4 className="font-medium mb-1">Customer Notes</h4><p className="text-slate-600 text-sm bg-slate-50 p-3 rounded">{selectedReservation.customer_notes}</p></div>
+              <div><h4 className="font-medium mb-1">Notes du Client</h4><p className="text-slate-600 text-sm bg-slate-50 p-3 rounded">{selectedReservation.customer_notes}</p></div>
             )}
 
             {selectedReservation.cancellation_reason && (
-              <div className="p-4 bg-red-50 rounded-lg"><h4 className="font-medium text-red-800 mb-1">Cancellation Reason</h4><p className="text-red-700 text-sm">{selectedReservation.cancellation_reason}</p></div>
+              <div className="p-4 bg-red-50 rounded-lg"><h4 className="font-medium text-red-800 mb-1">Raison d'Annulation</h4><p className="text-red-700 text-sm">{selectedReservation.cancellation_reason}</p></div>
             )}
 
             <div className="flex justify-end gap-3 pt-4">
               {selectedReservation.status === 'pending' && (
                 <>
-                  <Button variant="danger" onClick={() => { setIsViewOpen(false); setIsCancelOpen(true); }}>Cancel</Button>
-                  <Button onClick={() => { setIsViewOpen(false); setIsConfirmOpen(true); }}>Confirm</Button>
+                  <Button variant="danger" onClick={() => { setIsViewOpen(false); setIsCancelOpen(true); }}>Annuler</Button>
+                  <Button onClick={() => { setIsViewOpen(false); setIsConfirmOpen(true); }}>Confirmer</Button>
                 </>
               )}
               {selectedReservation.status === 'confirmed' && (
-                <Button onClick={() => { handleComplete(selectedReservation); setIsViewOpen(false); }}>Mark Completed</Button>
+                <Button onClick={() => { handleComplete(selectedReservation); setIsViewOpen(false); }}>Marquer Terminée</Button>
               )}
-              <Button variant="secondary" onClick={() => setIsViewOpen(false)}>Close</Button>
+              <Button variant="secondary" onClick={() => setIsViewOpen(false)}>Fermer</Button>
             </div>
           </div>
         )}
       </Modal>
 
       {/* Confirm Dialog */}
-      <ConfirmDialog isOpen={isConfirmOpen} onClose={() => setIsConfirmOpen(false)} onConfirm={handleConfirm} title="Confirm Reservation" message={`Confirm reservation ${selectedReservation?.reference_code}? The customer will be notified.`} confirmText="Confirm" variant="primary" />
+      <ConfirmDialog isOpen={isConfirmOpen} onClose={() => setIsConfirmOpen(false)} onConfirm={handleConfirm} title="Confirmer la Réservation" message={`Confirmer la réservation ${selectedReservation?.reference_code}? Le client sera notifié.`} confirmText="Confirmer" variant="primary" />
 
       {/* Cancel Dialog */}
-      <Modal isOpen={isCancelOpen} onClose={() => { setIsCancelOpen(false); setCancelReason(''); }} title="Cancel Reservation">
+      <Modal isOpen={isCancelOpen} onClose={() => { setIsCancelOpen(false); setCancelReason(''); }} title="Annuler la Réservation">
         <div className="space-y-4">
-          <p className="text-slate-600">Are you sure you want to cancel reservation <strong>{selectedReservation?.reference_code}</strong>?</p>
+          <p className="text-slate-600">Êtes-vous sûr de vouloir annuler la réservation <strong>{selectedReservation?.reference_code}</strong>?</p>
           <div>
-            <label className="block text-sm font-medium text-slate-700 mb-1">Cancellation Reason</label>
-            <textarea value={cancelReason} onChange={(e) => setCancelReason(e.target.value)} rows={3} className="w-full px-4 py-2 border border-slate-200 rounded-lg" placeholder="Reason for cancellation..." />
+            <label className="block text-sm font-medium text-slate-700 mb-1">Raison d'Annulation</label>
+            <textarea value={cancelReason} onChange={(e) => setCancelReason(e.target.value)} rows={3} className="w-full px-4 py-2 border border-slate-200 rounded-lg" placeholder="Raison de l'annulation..." />
           </div>
           <div className="flex justify-end gap-3">
-            <Button variant="secondary" onClick={() => { setIsCancelOpen(false); setCancelReason(''); }}>Back</Button>
-            <Button variant="danger" onClick={handleCancel}>Cancel Reservation</Button>
+            <Button variant="secondary" onClick={() => { setIsCancelOpen(false); setCancelReason(''); }}>Retour</Button>
+            <Button variant="danger" onClick={handleCancel}>Annuler la Réservation</Button>
           </div>
         </div>
       </Modal>
