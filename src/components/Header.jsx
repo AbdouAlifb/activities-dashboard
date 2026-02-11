@@ -28,7 +28,7 @@ const Header = ({ onMenuClick, title }) => {
           <Search className="w-4 h-4 text-slate-400" />
           <input
             type="text"
-            placeholder="Search..."
+            placeholder="Rechercher..."
             className="bg-transparent border-none outline-none text-sm text-slate-600 placeholder-slate-400 w-48"
           />
         </div>

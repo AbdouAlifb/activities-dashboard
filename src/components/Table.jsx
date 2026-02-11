@@ -6,7 +6,7 @@ const Table = ({
   columns,
   data,
   loading = false,
-  emptyMessage = 'No data available',
+  emptyMessage = 'Aucune donnée disponible',
   pagination,
   onPageChange,
 }) => {
@@ -62,11 +62,11 @@ const Table = ({
       {pagination && (
         <div className="px-6 py-4 border-t border-slate-200 flex items-center justify-between">
           <p className="text-sm text-slate-500">
-            Showing {((pagination.page - 1) * pagination.limit) + 1} to{' '}
-            {Math.min(pagination.page * pagination.limit, pagination.total)} of{' '}
-            {pagination.total} results
+            Affichage de {((pagination.page - 1) * pagination.limit) + 1} à{' '}
+            {Math.min(pagination.page * pagination.limit, pagination.total)} sur{' '}
+            {pagination.total} résultats
           </p>
-          
+
           <div className="flex items-center gap-2">
             <button
               onClick={() => onPageChange(pagination.page - 1)}
@@ -75,11 +75,11 @@ const Table = ({
             >
               <ChevronLeft className="w-4 h-4" />
             </button>
-            
+
             <span className="px-3 py-1 text-sm text-slate-600">
-              Page {pagination.page} of {pagination.totalPages}
+              Page {pagination.page} sur {pagination.totalPages}
             </span>
-            
+
             <button
               onClick={() => onPageChange(pagination.page + 1)}
               disabled={pagination.page >= pagination.totalPages}

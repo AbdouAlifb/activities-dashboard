@@ -23,12 +23,12 @@ const LoginPage = () => {
   const validate = () => {
     const newErrors = {};
     if (!username.trim()) {
-      newErrors.username = 'Username is required';
+      newErrors.username = "Le nom d'utilisateur est requis";
     }
     if (!password) {
-      newErrors.password = 'Password is required';
+      newErrors.password = 'Le mot de passe est requis';
     } else if (password.length < 8) {
-      newErrors.password = 'Password must be at least 8 characters';
+      newErrors.password = 'Le mot de passe doit contenir au moins 8 caractères';
     }
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -71,9 +71,20 @@ const LoginPage = () => {
         {/* Content overlay */}
         <div className="relative z-10 flex flex-col justify-center px-12 text-white">
           <div className="max-w-md">
-            <h2 className="text-4xl font-bold mb-4">Welcome to TripDND</h2>
+            <div className="mb-6">
+              <img
+                src="/logo.png"
+                alt="CardND"
+                className="h-16 w-auto brightness-0 invert"
+                onError={(e) => {
+                  e.target.onerror = null;
+                  e.target.src = 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="150" height="50"><text x="10" y="30" font-family="Arial" font-size="20" fill="%23ffffff">CardND</text></svg>';
+                }}
+              />
+            </div>
+            <h2 className="text-4xl font-bold mb-4">Bienvenue</h2>
             <p className="text-lg text-primary-100 mb-8">
-              Manage unforgettable experiences and activities around the world. Your gateway to adventure management.
+              Gérez des expériences et activités inoubliables à travers le monde. Votre portail de gestion d'aventures.
             </p>
             <div className="space-y-4">
               <div className="flex items-center space-x-3">
@@ -82,7 +93,7 @@ const LoginPage = () => {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
                 </div>
-                <span className="text-primary-50">Manage activities & experiences</span>
+                <span className="text-primary-50">Gérer les activités & expériences</span>
               </div>
               <div className="flex items-center space-x-3">
                 <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center backdrop-blur-sm">
@@ -90,7 +101,7 @@ const LoginPage = () => {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
                 </div>
-                <span className="text-primary-50">Track reservations & bookings</span>
+                <span className="text-primary-50">Suivre les réservations & bookings</span>
               </div>
               <div className="flex items-center space-x-3">
                 <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center backdrop-blur-sm">
@@ -98,7 +109,7 @@ const LoginPage = () => {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
                 </div>
-                <span className="text-primary-50">Analytics & insights</span>
+                <span className="text-primary-50">Analyses & statistiques</span>
               </div>
             </div>
           </div>
@@ -110,23 +121,27 @@ const LoginPage = () => {
         <div className="w-full max-w-md">
           {/* Logo & Title */}
           <div className="text-center mb-8">
-            <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-primary-500 to-primary-700 shadow-lg shadow-primary-500/30 mb-4">
-              <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-              </svg>
+            <div className="flex items-center justify-center mb-4">
+              <img
+                src="/logo.png"
+                alt="CardND"
+                className="h-16 md:h-20 w-auto"
+                onError={(e) => {
+                  e.target.onerror = null;
+                  e.target.src = 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="150" height="50"><text x="10" y="30" font-family="Arial" font-size="20" fill="%23047857">CardND</text></svg>';
+                }}
+              />
             </div>
-            <h1 className="font-display font-bold text-3xl text-slate-900">TripDND</h1>
-            <p className="text-slate-600 mt-2">Sign in to your dashboard</p>
+            <p className="text-slate-600 mt-2">Connectez-vous à votre tableau de bord</p>
           </div>
 
           {/* Form Card */}
           <div className="bg-white rounded-2xl shadow-xl p-8">
             <form onSubmit={handleSubmit} className="space-y-5">
               <Input
-                label="Username"
+                label="Nom d'utilisateur"
                 type="text"
-                placeholder="Enter your username"
+                placeholder="Entrez votre nom d'utilisateur"
                 icon={User}
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
@@ -137,9 +152,9 @@ const LoginPage = () => {
 
               <div className="relative">
                 <Input
-                  label="Password"
+                  label="Mot de passe"
                   type={showPassword ? 'text' : 'password'}
-                  placeholder="Enter your password"
+                  placeholder="Entrez votre mot de passe"
                   icon={Lock}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
@@ -161,19 +176,19 @@ const LoginPage = () => {
                 size="lg"
                 loading={loading}
               >
-                Sign In
+                Se connecter
               </Button>
             </form>
 
             {/* Footer */}
             <p className="text-center text-sm text-slate-500 mt-6">
-              Protected by role-based access control
+              Protégé par un contrôle d'accès basé sur les rôles
             </p>
           </div>
 
           {/* Copyright */}
           <p className="text-center text-sm text-slate-500 mt-8">
-            © 2024 TripDND. All rights reserved.
+            © {new Date().getFullYear()} CardND SARL AU. Tous droits réservés.
           </p>
         </div>
       </div>

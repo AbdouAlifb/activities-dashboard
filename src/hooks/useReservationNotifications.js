@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { io } from 'socket.io-client';
 
-const SOCKET_URL = 'http://localhost:5000';
+const SOCKET_URL = 'https://activities.cardnd.com';
 
 export const useReservationNotifications = (userRole) => {
   const [hasNewReservations, setHasNewReservations] = useState(false);

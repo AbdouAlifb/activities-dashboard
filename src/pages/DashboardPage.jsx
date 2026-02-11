@@ -20,7 +20,7 @@ const KPICard = ({ title, value, change, icon: Icon, color, prefix = '', suffix 
           {change !== undefined && (
             <div className={`flex items-center gap-1 text-sm font-medium ${isPositive ? 'text-green-600' : 'text-red-600'}`}>
               {isPositive ? <TrendingUp className="w-4 h-4" /> : <TrendingDown className="w-4 h-4" />}
-              <span>{Math.abs(change)}% vs last period</span>
+              <span>{Math.abs(change)}% vs période précédente</span>
             </div>
           )}
         </div>
@@ -48,7 +48,7 @@ const DashboardPage = () => {
       setStats(response.data.data);
     } catch (error) {
       console.error('Failed to fetch dashboard stats:', error);
-      toast.error('Failed to load dashboard statistics');
+      toast.error('Échec du chargement des statistiques');
     } finally {
       setLoading(false);
     }
@@ -101,24 +101,24 @@ const DashboardPage = () => {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-slate-900">Dashboard Overview</h1>
-          <p className="text-slate-500 mt-1">Welcome back! Here's what's happening with your platform.</p>
+          <h1 className="text-3xl font-bold text-slate-900">Aperçu du Tableau de Bord</h1>
+          <p className="text-slate-500 mt-1">Bienvenue ! Voici ce qui se passe sur votre plateforme.</p>
         </div>
         <select
           value={timeRange}
           onChange={(e) => setTimeRange(e.target.value)}
           className="px-4 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
         >
-          <option value="7">Last 7 days</option>
-          <option value="30">Last 30 days</option>
-          <option value="90">Last 90 days</option>
+          <option value="7">7 derniers jours</option>
+          <option value="30">30 derniers jours</option>
+          <option value="90">90 derniers jours</option>
         </select>
       </div>
 
       {/* KPI Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <KPICard
-          title="Total Revenue"
+          title="Revenu Total"
           value={parseFloat(overview.total_revenue).toFixed(2)}
           prefix="$"
           change={growthMetrics.revenue_growth}
@@ -126,7 +126,7 @@ const DashboardPage = () => {
           color="bg-gradient-to-br from-green-500 to-green-600"
         />
         <KPICard
-          title="Total Commission"
+          title="Commission Totale"
           value={parseFloat(overview.total_commission).toFixed(2)}
           prefix="$"
           change={growthMetrics.commission_growth}
@@ -134,14 +134,14 @@ const DashboardPage = () => {
           color="bg-gradient-to-br from-blue-500 to-blue-600"
         />
         <KPICard
-          title="Total Reservations"
+          title="Réservations Totales"
           value={overview.total_reservations}
           change={growthMetrics.reservations_growth}
           icon={Calendar}
           color="bg-gradient-to-br from-purple-500 to-purple-600"
         />
         <KPICard
-          title="Active Agencies"
+          title="Agences Actives"
           value={overview.total_agencies}
           icon={Building2}
           color="bg-gradient-to-br from-orange-500 to-orange-600"
@@ -152,28 +152,28 @@ const DashboardPage = () => {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div className="bg-white rounded-xl p-6 shadow-sm">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-lg font-semibold text-slate-900">Reservation Status</h3>
+            <h3 className="text-lg font-semibold text-slate-900">Statut des Réservations</h3>
             <Activity className="w-5 h-5 text-slate-400" />
           </div>
           <div className="space-y-3">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <CheckCircle className="w-4 h-4 text-green-500" />
-                <span className="text-sm text-slate-600">Confirmed</span>
+                <span className="text-sm text-slate-600">Confirmées</span>
               </div>
               <span className="text-sm font-semibold text-slate-900">{overview.confirmed_reservations}</span>
             </div>
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <Clock className="w-4 h-4 text-yellow-500" />
-                <span className="text-sm text-slate-600">Pending</span>
+                <span className="text-sm text-slate-600">En Attente</span>
               </div>
               <span className="text-sm font-semibold text-slate-900">{overview.pending_reservations}</span>
             </div>
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <XCircle className="w-4 h-4 text-red-500" />
-                <span className="text-sm text-slate-600">Cancelled</span>
+                <span className="text-sm text-slate-600">Annulées</span>
               </div>
               <span className="text-sm font-semibold text-slate-900">{overview.cancelled_reservations}</span>
             </div>
@@ -182,27 +182,27 @@ const DashboardPage = () => {
 
         <div className="bg-white rounded-xl p-6 shadow-sm">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-lg font-semibold text-slate-900">Platform Stats</h3>
+            <h3 className="text-lg font-semibold text-slate-900">Statistiques Plateforme</h3>
             <MapPin className="w-5 h-5 text-slate-400" />
           </div>
           <div className="space-y-3">
             <div className="flex items-center justify-between">
-              <span className="text-sm text-slate-600">Active Activities</span>
+              <span className="text-sm text-slate-600">Activités Actives</span>
               <span className="text-sm font-semibold text-slate-900">{overview.total_activities}</span>
             </div>
             <div className="flex items-center justify-between">
-              <span className="text-sm text-slate-600">Registered Clients</span>
+              <span className="text-sm text-slate-600">Clients Inscrits</span>
               <span className="text-sm font-semibold text-slate-900">{overview.total_clients}</span>
             </div>
             <div className="flex items-center justify-between">
-              <span className="text-sm text-slate-600">Active Agencies</span>
+              <span className="text-sm text-slate-600">Agences Actives</span>
               <span className="text-sm font-semibold text-slate-900">{overview.total_agencies}</span>
             </div>
           </div>
         </div>
 
         <div className="bg-white rounded-xl p-6 shadow-sm">
-          <h3 className="text-lg font-semibold text-slate-900 mb-4">Status Breakdown</h3>
+          <h3 className="text-lg font-semibold text-slate-900 mb-4">Répartition par Statut</h3>
           <ResponsiveContainer width="100%" height={120}>
             <PieChart>
               <Pie
@@ -226,7 +226,7 @@ const DashboardPage = () => {
 
       {/* Revenue & Commission Trends */}
       <div className="bg-white rounded-xl p-6 shadow-sm">
-        <h3 className="text-lg font-semibold text-slate-900 mb-6">Revenue & Commission Trends</h3>
+        <h3 className="text-lg font-semibold text-slate-900 mb-6">Tendances Revenu & Commission</h3>
         <ResponsiveContainer width="100%" height={300}>
           <AreaChart data={revenueChartData}>
             <defs>
@@ -247,7 +247,7 @@ const DashboardPage = () => {
               formatter={(value) => `$${parseFloat(value).toFixed(2)}`}
             />
             <Legend />
-            <Area type="monotone" dataKey="revenue" stroke="#3b82f6" fillOpacity={1} fill="url(#colorRevenue)" name="Revenue" />
+            <Area type="monotone" dataKey="revenue" stroke="#3b82f6" fillOpacity={1} fill="url(#colorRevenue)" name="Revenu" />
             <Area type="monotone" dataKey="commission" stroke="#10b981" fillOpacity={1} fill="url(#colorCommission)" name="Commission" />
           </AreaChart>
         </ResponsiveContainer>
@@ -255,7 +255,7 @@ const DashboardPage = () => {
 
       {/* Reservation Status Trends */}
       <div className="bg-white rounded-xl p-6 shadow-sm">
-        <h3 className="text-lg font-semibold text-slate-900 mb-6">Daily Reservations by Status</h3>
+        <h3 className="text-lg font-semibold text-slate-900 mb-6">Réservations Quotidiennes par Statut</h3>
         <ResponsiveContainer width="100%" height={300}>
           <BarChart data={reservationStatusData}>
             <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
@@ -263,9 +263,9 @@ const DashboardPage = () => {
             <YAxis stroke="#64748b" fontSize={12} />
             <Tooltip contentStyle={{ backgroundColor: '#fff', border: '1px solid #e2e8f0', borderRadius: '8px' }} />
             <Legend />
-            <Bar dataKey="confirmed" fill="#10b981" name="Confirmed" radius={[4, 4, 0, 0]} />
-            <Bar dataKey="pending" fill="#f59e0b" name="Pending" radius={[4, 4, 0, 0]} />
-            <Bar dataKey="cancelled" fill="#ef4444" name="Cancelled" radius={[4, 4, 0, 0]} />
+            <Bar dataKey="confirmed" fill="#10b981" name="Confirmées" radius={[4, 4, 0, 0]} />
+            <Bar dataKey="pending" fill="#f59e0b" name="En Attente" radius={[4, 4, 0, 0]} />
+            <Bar dataKey="cancelled" fill="#ef4444" name="Annulées" radius={[4, 4, 0, 0]} />
           </BarChart>
         </ResponsiveContainer>
       </div>
@@ -273,7 +273,7 @@ const DashboardPage = () => {
       {/* Top Performers */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div className="bg-white rounded-xl p-6 shadow-sm">
-          <h3 className="text-lg font-semibold text-slate-900 mb-4">Top Performing Activities</h3>
+          <h3 className="text-lg font-semibold text-slate-900 mb-4">Activités les Plus Performantes</h3>
           <div className="space-y-3">
             {topActivities.slice(0, 5).map((activity, index) => (
               <div key={activity.id} className="flex items-center gap-3 p-3 rounded-lg hover:bg-slate-50 transition-colors">
@@ -285,7 +285,7 @@ const DashboardPage = () => {
                   <p className="text-sm text-slate-500">{activity.city_name}</p>
                 </div>
                 <div className="text-right">
-                  <p className="font-semibold text-slate-900">{activity.reservations_count} bookings</p>
+                  <p className="font-semibold text-slate-900">{activity.reservations_count} réservations</p>
                   <p className="text-sm text-green-600">${parseFloat(activity.total_revenue).toFixed(0)}</p>
                 </div>
               </div>
@@ -294,7 +294,7 @@ const DashboardPage = () => {
         </div>
 
         <div className="bg-white rounded-xl p-6 shadow-sm">
-          <h3 className="text-lg font-semibold text-slate-900 mb-4">Top Performing Agencies</h3>
+          <h3 className="text-lg font-semibold text-slate-900 mb-4">Agences les Plus Performantes</h3>
           <div className="space-y-3">
             {topAgencies.slice(0, 5).map((agency, index) => (
               <div key={agency.id} className="flex items-center gap-3 p-3 rounded-lg hover:bg-slate-50 transition-colors">
@@ -306,7 +306,7 @@ const DashboardPage = () => {
                   <p className="text-sm text-slate-500">{agency.city_name}</p>
                 </div>
                 <div className="text-right">
-                  <p className="font-semibold text-slate-900">{agency.reservations_count} bookings</p>
+                  <p className="font-semibold text-slate-900">{agency.reservations_count} réservations</p>
                   <p className="text-sm text-green-600">${parseFloat(agency.total_revenue).toFixed(0)}</p>
                 </div>
               </div>
@@ -317,17 +317,17 @@ const DashboardPage = () => {
 
       {/* Recent Reservations */}
       <div className="bg-white rounded-xl p-6 shadow-sm">
-        <h3 className="text-lg font-semibold text-slate-900 mb-4">Recent Reservations</h3>
+        <h3 className="text-lg font-semibold text-slate-900 mb-4">Réservations Récentes</h3>
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead>
               <tr className="border-b border-slate-200">
-                <th className="text-left py-3 px-4 text-sm font-semibold text-slate-700">Reference</th>
-                <th className="text-left py-3 px-4 text-sm font-semibold text-slate-700">Customer</th>
-                <th className="text-left py-3 px-4 text-sm font-semibold text-slate-700">Activity</th>
-                <th className="text-left py-3 px-4 text-sm font-semibold text-slate-700">Agency</th>
-                <th className="text-left py-3 px-4 text-sm font-semibold text-slate-700">Amount</th>
-                <th className="text-left py-3 px-4 text-sm font-semibold text-slate-700">Status</th>
+                <th className="text-left py-3 px-4 text-sm font-semibold text-slate-700">Référence</th>
+                <th className="text-left py-3 px-4 text-sm font-semibold text-slate-700">Client</th>
+                <th className="text-left py-3 px-4 text-sm font-semibold text-slate-700">Activité</th>
+                <th className="text-left py-3 px-4 text-sm font-semibold text-slate-700">Agence</th>
+                <th className="text-left py-3 px-4 text-sm font-semibold text-slate-700">Montant</th>
+                <th className="text-left py-3 px-4 text-sm font-semibold text-slate-700">Statut</th>
                 <th className="text-left py-3 px-4 text-sm font-semibold text-slate-700">Date</th>
               </tr>
             </thead>
